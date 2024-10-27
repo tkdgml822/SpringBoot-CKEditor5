@@ -6,10 +6,12 @@ import com.example.demo.repository.ContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContentService {
 
-    private ContentRepository contentRepository;
+    private final ContentRepository contentRepository;
 
     // Service - Repository 연결
     @Autowired
@@ -29,5 +31,10 @@ public class ContentService {
         content1.setContent(content);
 
         contentRepository.save(content1);
+    }
+
+    public List<ContentEntity> selectContent() {
+
+        return contentRepository.findAll();
     }
 }
