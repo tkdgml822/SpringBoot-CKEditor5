@@ -49,4 +49,17 @@ public class ContentService {
 
         contentRepository.deleteById(to);
     }
+
+    // 기존값이 있을 경우 save을 한 경우는 JPA가 update 구문을 실행한다.
+    public void updateOneContent(SaveDTO saveDTO, String id) {
+
+        int to = Integer.parseInt(id);
+
+        ContentEntity content1 = new ContentEntity();
+        content1.setId(to);
+        content1.setTitle(saveDTO.getTitle());
+        content1.setContent(saveDTO.getContent());
+
+        contentRepository.save(content1);
+    }
 }
