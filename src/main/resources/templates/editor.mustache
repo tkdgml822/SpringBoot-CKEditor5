@@ -17,7 +17,11 @@ editor
 </form>
 <script>
     ClassicEditor.create( document.querySelector( '#content' ), {
-        language: "ko"
+        language: "ko",
+        ckfinder : {
+            uploadUrl: "/image/upload",
+            withCredentials: true
+        }
     } );
 </script>
 </body>
