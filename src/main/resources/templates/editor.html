@@ -1,0 +1,19 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+editor
+<form th:action="@{/save/{id}(id=${data != null ? data.id : ''})}" method="POST">
+    <input name="title" type="text" placeholder="제목"
+           th:value="${data != null ? data.title : ''}" /><br>
+    <textarea name="content" id="content"
+              th:text="${data != null ? data.content : ''}"></textarea><br>
+    <input type="submit" value="등록">
+</form>
+</body>
+</html>
