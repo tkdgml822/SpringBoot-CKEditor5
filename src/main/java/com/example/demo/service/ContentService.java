@@ -3,34 +3,36 @@ package com.example.demo.service;
 import com.example.demo.dto.SaveDTO;
 import com.example.demo.entity.ContentEntity;
 import com.example.demo.repository.ContentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class ContentService {
 
     private final ContentRepository contentRepository;
+    private final ImageService imageService;
 
     // Service - Repository 연결
-    @Autowired
-    public ContentService(ContentRepository contentRepository) {
+    public void saveContent(SaveDTO saveDTO) throws IOException {
+        ContentEntity contentEntity = new ContentEntity();
+        contentEntity.setTitle(saveDTO.getTitle());
+        contentEntity.setContent(saveDTO.getContent());
+        contentEntity.setImageUrl(null);
 
-        this.contentRepository = contentRepository;
+        contentRepository.save(contentEntity);
     }
 
-    public void saveContent(SaveDTO saveDTO) {
-        String title = saveDTO.getTitle();
-        String content = saveDTO.getContent();
-
-        ContentEntity content1 = new ContentEntity();
-
-        // set을 사용하면 안됨 - 추후 변경 (생성자 방식을 사용해야 한다.)
-        content1.setTitle(title);
-        content1.setContent(content);
-
-        contentRepository.save(content1);
+    public void saveImageUrl(String imageUrl) {
+        ContentEntity contentEntity = new ContentEntity();
+        contentEntity.setImageUrl(imageUrl);
+        contentRepository.save(contentEntity);
     }
 
     public List<ContentEntity> selectContent() {

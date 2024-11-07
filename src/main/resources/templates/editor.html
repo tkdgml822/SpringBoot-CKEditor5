@@ -6,14 +6,51 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+<style>
+    textarea {
+        width: 70%;
+    }
+</style>
+<link rel="stylesheet" href="/richtexteditor/rte_theme_default.css"/>
+<script type="text/javascript" src="/richtexteditor/rte.js"></script>
+<script type="text/javascript" src='/richtexteditor/plugins/all_plugins.js'></script>
 <body>
 editor
-<form th:action="@{/save/{id}(id=${data != null ? data.id : ''})}" method="POST">
-    <input name="title" type="text" placeholder="제목"
-           th:value="${data != null ? data.title : ''}" /><br>
-    <textarea name="content" id="content"
-              th:text="${data != null ? data.content : ''}"></textarea><br>
+<form th:action="@{${data != null ? '/save/' + data.id : '/save'}}"
+      method="POST" enctype="multipart/form-data" onsubmit="updateContent()">
+    <label>
+        <input name="title" type="text" placeholder="제목" th:value="${data != null ? data.title : ''}"/>
+    </label><br>
+
+    <label for="content"></label>
+    <textarea id="content" name="content" th:text="${data != null ? data.content : ''}"></textarea><br>
+
     <input type="submit" value="등록">
 </form>
+<script>
+    let editor1 = new RichTextEditor("#content");
+
+    window.rte_file_upload_handler = function(file, callback) {
+        let formData = new FormData();
+        formData.append('file', file);
+
+        fetch('/uploadImage', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(imageUrl => {
+            callback(imageUrl);
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+            callback(null, 'Error uploading image');
+        });
+    };
+
+    function updateContent() {
+        document.getElementById('content').value = editor1.getHTMLCode();
+    }
+</script>
 </body>
 </html>

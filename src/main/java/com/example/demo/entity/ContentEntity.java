@@ -15,4 +15,5 @@ public class ContentEntity {
     private int id;
     private String title;
     private String content;
+    private String imageUrl;
 }

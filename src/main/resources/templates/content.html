@@ -11,7 +11,7 @@
 <hr>
 <br>
 <div th:text="${Content.title}"></div>
-<div th:text="${Content.content}"></div>
+<div th:utext="${Content.content}"></div>
 <a th:href="@{/editor/{id}(id=${Content.id})}">게시글 수정</a><br>
 <a th:href="@{/delete/{id}(id=${Content.id})}">게시글 삭제</a><br>
 <hr>
